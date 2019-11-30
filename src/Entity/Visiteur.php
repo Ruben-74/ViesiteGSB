@@ -47,12 +47,12 @@ class Visiteur
     private $dateEmbauche_vis;
 
     /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\Departement", inversedBy="visiteurs")
+     * @ORM\ManyToOne(targetEntity="App\Entity\Departement", inversedBy="visiteurs" , cascade={"persist"})
      */
     private $ledepartement;
 
     /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\Secteur", inversedBy="visiteurs")
+     * @ORM\ManyToOne(targetEntity="App\Entity\Secteur", inversedBy="visiteurs" , cascade={"persist"})
      */
     private $lesecteur;
 

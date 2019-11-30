@@ -4,13 +4,15 @@ namespace App\Form;
 
 use App\Entity\Visiteur;
 use App\Form\SecteurType;
+use App\Entity\Departement;
 use App\Form\ApplicationType;
 use App\Form\DepartementType;
 use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
-use Symfony\Component\Form\Extension\Core\Type\CollectionType;
+
 
 class VisiteurType extends ApplicationType
 {
@@ -22,7 +24,18 @@ class VisiteurType extends ApplicationType
             ->add('adresse_vis', TextType::class, $this->getConfiguration("Adresse", "Inserez votre adresse"))
             ->add('CP_vis',  TextType::class, $this->getConfiguration("code Postale", "Inserez votre Code Postale "))
             ->add('Ville_vis', TextType::class, $this->getConfiguration("Ville", "Renseignez votre Ville "))
-            ->add('dateEmbauche_vis',DateType::class, $this->getConfiguration("Date", "Renseignez votre date d'embauche"));
+            ->add('dateEmbauche_vis',DateType::class, $this->getConfiguration("Date", "Renseignez votre date d'embauche"))
+
+             ->add('ledepartement', EntityType::class, array(
+                     'class'        => 'App\Entity\Departement',
+                     'choice_label' => 'nomDep',
+                     'multiple'     => false,
+             ))
+             ->add('lesecteur', EntityType::class, array(
+                'class'        => 'App\Entity\Secteur',
+                'choice_label' => 'libelleSec',
+                'multiple'     => false,
+        ));
     }
 
     public function configureOptions(OptionsResolver $resolver)
