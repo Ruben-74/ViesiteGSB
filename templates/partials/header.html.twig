@@ -1,0 +1,47 @@
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark nav-fixed">
+        <a class="navbar-brand" style="font-size:30px;" href="{{path('visiteurs_index')}}">Gestion des visiteurs</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarColor02" aria-controls="navbarColor02" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="navbarColor02">
+            <ul class="navbar-nav mr-auto">
+                <li class="nav-item">
+                    <a href="#" style="font-size:20px;" class="dropdown-item">Recherche</a>
+                </li>
+            </ul>
+            <ul class="navbar-nav ml-auto">
+                
+                    <li class="nav-item">
+                        <a href="#" style="font-size:20px;"class="nav-link"> Inscription</a>
+                    </li>
+                     <li class="nav-item">
+                        <a href="#" style="font-size:20px;" class="nav-link"> Connexion</a>
+                    </li>
+            
+            </ul>
+            <br>
+            <div class="dropdown">
+                <button class="btn btn-danger dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        Parametres
+                </button>
+                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                        <a class="dropdown-item" href="{{path('visiteurs_create')}}">Creer un visiteur</a>
+                        <a class="dropdown-item" href="#">Modifier mon profil</a>
+                        <a class="dropdown-item" href="#">Deconnexion</a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    {% for label, messages in app.flashes %}
+        <div class="container">
+            <div class="alert alert-{{label}}">
+                {% for message in messages %}
+                    <p>{{ message | raw }}</p>
+                {% endfor %}
+            </div>
+        
+        </div>
+
+    {% endfor %}

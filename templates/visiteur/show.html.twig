@@ -1,0 +1,27 @@
+{% extends 'base.html.twig' %} {% block title %} {{visiteur.nomvis}} {% endblock %} {% block body %}
+
+<div class="row">
+    <div class='col-6 mb-5'>
+        <img class="ml-5" src=" https://thispersondoesnotexist.com/image " style="width:90%; height:90%; margin-top:100px; " alt=" ">
+    </div>
+    <div class="col-6 ml5" style="margin-top:150px;">
+        <h1>{{visiteur.nomvis}}</h1>
+        <h4 class="size">Matricule : <i>{{visiteur.matricule}}</i></h4>
+        <hr>
+        <h4 class="size">Adresse : {{visiteur.adressevis}}</h4>
+        <hr>
+        <h4 class="size">Ville : {{visiteur.villeVis}} </h4>
+        <hr>
+        <h4 class="size">Code Postal : {{visiteur.cpVis}}</h4>
+        <hr>
+        <h4 class="size">Departement : {{visiteur.ledepartement.nomDep}}</h4>
+        <hr>
+        <h4 class="size">Secteur : {{visiteur.lesecteur.libelleSec}}</h4>
+        <hr>
+        <h4 class="size">Date d'embauche : {{ visiteur.dateEmbaucheVis | date("d/m/Y") }}</h4>
+        <hr>
+        <a href="{{path('visiteurs_edit', {'id': visiteur.id})}}" class="btn btn-success">Modifier le visiteur</a>
+        <a href="{{path('visiteurs_delete', {'id' : visiteur.id})}}" class="btn btn-danger" onclick="return confirm('Etes vous sur de vouloir supprimer un visiteur : {{visiteur.nomVis}} ?')">Supprimer un visiteur</a>
+    </div>
+</div>
+{% endblock %}

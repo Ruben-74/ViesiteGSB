@@ -1,0 +1,45 @@
+{% extends 'base.html.twig' %}
+
+{% block title %} Création d'un nouveau visiteur{% endblock %} 
+
+{% form_theme form _self %} 
+
+{% block body %}
+
+<div class="container">
+    <h1>Crée une nouveau visiteur </h1>
+
+    {{ form_start(form) }}
+
+    {{ form_widget(form) }}<!--afficher le champ lui meme sans titre-->
+
+    {% block _visiteur_dep_entry_widget %}
+    <div class="form-group" id="block_{{id}}">
+        <div class="row">
+            <div class="col-10">
+                <div class="row">
+                    <div class="col">
+                        {{ form_widget(form.url)}}
+                    </div>
+                    <div class="col">
+                        {{ form_widget(form.caption)}}
+                    </div>
+                </div>
+            </div>
+            <div class="col-2">
+            <button type="button" data-action="delete" data-target="#block_{{id}}" class="btn btn-danger">X</button>
+            </div>
+        </div>
+    </div>
+   {% endblock %}
+    
+        <button type="submit" class="btn btn-primary">Creer le visiteur</button>
+
+    {{ form_end(form) }}
+</div>
+
+{% endblock %}
+
+{% block javascripts %}
+
+{% endblock %}

@@ -1,0 +1,21 @@
+{% set url = path('show_id', {'id': visiteur.id}) %}
+
+<div class="col-md-4">
+    <div class="card border-danger bg-light mb-4" style="width:18rem;">
+        <div class="container">
+            <img src="https://thispersondoesnotexist.com/image" style="float:left; width:90px; margin-left:5px; margin-top:10px; height:90px; 	
+            border-radius: 5%; " alt="Avatar de l'utilisateur">
+            <h4 class="card-title nom-visiteur"><i class='nom-visiteur'>{{visiteur.nomVis}}</i></h4>
+        </div>
+
+        <ul class="list-group list-group-flush">
+            <li class="list-group-item"><strong>Matricule :{{visiteur.matricule}}</h7></strong></li>
+            <li class="list-group-item"><strong>Departement :  {{visiteur.ledepartement.nomDep}} </strong></li>
+            <li class="list-group-item"><strong> Secteur : {{visiteur.lesecteur.libelleSec}}</strong></li>
+        </ul>
+        <div class="card-body">
+            <center><a href="{{ path('show_id', {'id': visiteur.id }) }}" class="btn btn-success">Afficher</a></center>
+        </div>
+    </div>
+</div>
+
