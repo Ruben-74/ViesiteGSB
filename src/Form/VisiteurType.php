@@ -22,15 +22,7 @@ class VisiteurType extends ApplicationType
             ->add('adresse_vis', TextType::class, $this->getConfiguration("Adresse", "Inserez votre adresse"))
             ->add('CP_vis',  TextType::class, $this->getConfiguration("code Postale", "Inserez votre Code Postale "))
             ->add('Ville_vis', TextType::class, $this->getConfiguration("Ville", "Renseignez votre Ville "))
-            ->add('dateEmbauche_vis',DateType::class, $this->getConfiguration("Date", "Renseignez votre date d'embauche"))
-            ->add('ledepartement', CollectionType::class,[
-                'entry_type' => DepartementType::class,
-                'allow_add'=> true //on peut rajouter des choses
-           ])
-            ->add('lesecteur', CollectionType::class,[
-                'entry_type' => SecteurType::class,
-                'allow_add'=> true //on peut rajouter des choses
-           ]);
+            ->add('dateEmbauche_vis',DateType::class, $this->getConfiguration("Date", "Renseignez votre date d'embauche"));
     }
 
     public function configureOptions(OptionsResolver $resolver)
