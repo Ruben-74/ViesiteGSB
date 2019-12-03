@@ -3,11 +3,12 @@
 namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Security\Core\User\UserInterface;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\VisiteurRepository")
  */
-class Visiteur
+class Visiteur implements UserInterface
 {
     /**
      * @ORM\Id()
@@ -189,5 +190,33 @@ class Visiteur
         $this->hash = $hash;
 
         return $this;
+    }
+
+    //tien compte des roles Admin des USER
+    public function getRoles(){
+
+        $roles = $this->userRoles->map(function($role){
+            return $role->getTitle();
+        })->ToArray();
+
+        $roles[]= 'ROLE_USER';
+        
+        return $roles;
+    }
+
+    public function getPassword(){
+        return$this->hash;
+    }
+
+    public function getSalt(){
+
+    }
+
+    public function getUsername(){
+        return $this->email;
+    }
+
+    public function eraseCredentials(){
+
     }
 }

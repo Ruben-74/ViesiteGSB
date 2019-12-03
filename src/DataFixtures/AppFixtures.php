@@ -11,6 +11,7 @@ use App\Repository\SecteurRepository;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Common\Persistence\ObjectManager;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
+use Symfony\Component\Security\Core\User\UserInterface;
 
 class AppFixtures extends Fixture
 {
@@ -22,24 +23,22 @@ class AppFixtures extends Fixture
     private $secteurs;
 
     private $encoder;
-
-
-    public function load(ObjectManager $manager)
-    {
-        
-        
-        $this->importDepartements($manager);
-        $this->creationSecteur($manager);
-        $this->importRegion($manager);
-        $this->CreationVisiteurs($manager);
-        
-    }
-
     
     public function __construct(UserPasswordEncoderInterface $encoder)
     {
        $this->encoder = $encoder;
     }
+    
+    public function load(ObjectManager $manager)
+    {
+        
+        $this->importDepartements($manager);
+        $this->creationSecteur($manager);
+        $this->importRegion($manager);
+        $this->CreationVisiteurs($manager);
+    }
+    
+    
 
     public function CreationVisiteurs($manager)
     {
@@ -55,6 +54,7 @@ class AppFixtures extends Fixture
 
             $ref = str_shuffle(substr($chaine, rand(0, 36), rand(0, 36)));
 
+            $hash = $this->encoder->encodePassword($visiteur, 'password');
 
             $visiteur->setMatricule($ref)
                 ->setNomVis($faker->lastname)
@@ -63,6 +63,7 @@ class AppFixtures extends Fixture
                 ->setVilleVis($faker->city)
                 ->setDateEmbaucheVis($faker->datetime)
                 ->setHash($hash)
+                ->setCoverImage('https://randomuser.me/api/portraits/')
                 ->setLedepartement($this->departements[mt_rand(0,100)])
                 ->setLesecteur($this->secteurs[mt_rand(0,5)]);
 
