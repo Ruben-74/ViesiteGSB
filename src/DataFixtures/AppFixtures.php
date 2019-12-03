@@ -15,12 +15,14 @@ use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 class AppFixtures extends Fixture
 {
 
-
     private $departements;
 
     private $regions;
 
     private $secteurs;
+
+    private $encoder;
+
 
     public function load(ObjectManager $manager)
     {
@@ -31,6 +33,12 @@ class AppFixtures extends Fixture
         $this->importRegion($manager);
         $this->CreationVisiteurs($manager);
         
+    }
+
+    
+    public function __construct(UserPasswordEncoderInterface $encoder)
+    {
+       $this->encoder = $encoder;
     }
 
     public function CreationVisiteurs($manager)
@@ -54,6 +62,7 @@ class AppFixtures extends Fixture
                 ->setCPVis($faker->postcode)
                 ->setVilleVis($faker->city)
                 ->setDateEmbaucheVis($faker->datetime)
+                ->setHash($hash)
                 ->setLedepartement($this->departements[mt_rand(0,100)])
                 ->setLesecteur($this->secteurs[mt_rand(0,5)]);
 

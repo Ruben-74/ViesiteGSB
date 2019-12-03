@@ -56,6 +56,16 @@ class Visiteur
      */
     private $lesecteur;
 
+    /**
+     * @ORM\Column(type="string", length=255)
+     */
+    private $coverImage;
+
+    /**
+     * @ORM\Column(type="string", length=255)
+     */
+    private $hash;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -153,6 +163,30 @@ class Visiteur
     public function setLesecteur(?Secteur $lesecteur): self
     {
         $this->lesecteur = $lesecteur;
+
+        return $this;
+    }
+
+    public function getCoverImage(): ?string
+    {
+        return $this->coverImage;
+    }
+
+    public function setCoverImage(string $coverImage): self
+    {
+        $this->coverImage = $coverImage;
+
+        return $this;
+    }
+
+    public function getHash(): ?string
+    {
+        return $this->hash;
+    }
+
+    public function setHash(string $hash): self
+    {
+        $this->hash = $hash;
 
         return $this;
     }
