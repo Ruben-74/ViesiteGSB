@@ -3,6 +3,7 @@
 namespace App\DataFixtures;
 
 use Faker\Factory;
+use App\Entity\Role;
 use App\Entity\Region;
 use App\Entity\Secteur;
 use App\Entity\Visiteur;
@@ -11,7 +12,6 @@ use App\Repository\SecteurRepository;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Common\Persistence\ObjectManager;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
-use Symfony\Component\Security\Core\User\UserInterface;
 
 class AppFixtures extends Fixture
 {
@@ -23,30 +23,70 @@ class AppFixtures extends Fixture
     private $secteurs;
 
     private $encoder;
-    
-    public function __construct(UserPasswordEncoderInterface $encoder)
-    {
-       $this->encoder = $encoder;
+
+    public function __construct(UserPasswordEncoderInterface $encoder){
+       
+        $this->encoder = $encoder;
     }
     
+
     public function load(ObjectManager $manager)
     {
-        
         $this->importDepartements($manager);
         $this->creationSecteur($manager);
         $this->importRegion($manager);
         $this->CreationVisiteurs($manager);
     }
-    
-    
 
     public function CreationVisiteurs($manager)
     {
         //creation des fixtures de visiteurs
 
         $faker = Factory::create('FR-fr');
-
+        
         $chaine = ('abcdefghijklmnopkrstuvwxyz0123456789');
+        
+        $visiteurs = [];
+        $genres = ['male' , 'female'];
+
+
+        $adminRole = new Role();
+        $adminRole->setTitle('ROLE_ADMIN');
+        $manager->persist($adminRole);
+
+        //creation d'un visiteur admin
+
+            $visiteur = new Visiteur();
+
+            $ref = str_shuffle(substr($chaine, rand(0, 36), rand(0, 36)));
+
+            $hash = $this->encoder->encodePassword($visiteur, 'password');
+
+            
+            $genre = $faker->randomElement($genres);
+
+            $picture= 'https://randomuser.me/api/portraits/';
+
+            $pictureId = $faker->numberBetween(1,99) .'.jpg' ;
+
+            $picture .= ($genre == 'male' ? 'men/' : 'women/') .$pictureId;
+
+            $visiteur->setMatricule('1')
+                ->setNomVis('Ruben')
+                ->setAdresseVis('Avenue Jean Paul')
+                ->setCPVis('78680')
+                ->setVilleVis('Epone')
+                ->setEmail('ruben@gmail.com')
+                ->setDateEmbaucheVis($faker->datetime)
+                ->setCoverImage($picture)
+                ->setHash($this->encoder->encodePassword($visiteur, 'password'))
+                ->setLedepartement($this->departements[2])
+                ->setLesecteur($this->secteurs[5])
+                ->AddVisiteurRole($adminRole);
+                
+                $manager->persist($visiteur);
+
+        //generer des visiteurs lambda
 
         for ($i=1 ; $i <= 30 ; $i++) { 
 
@@ -56,18 +96,30 @@ class AppFixtures extends Fixture
 
             $hash = $this->encoder->encodePassword($visiteur, 'password');
 
+            
+            $genre = $faker->randomElement($genres);
+
+            $picture= 'https://randomuser.me/api/portraits/';
+
+            $pictureId = $faker->numberBetween(1,99) .'.jpg' ;
+
+            $picture .= ($genre == 'male' ? 'men/' : 'women/') .$pictureId;
+
             $visiteur->setMatricule($ref)
                 ->setNomVis($faker->lastname)
                 ->setAdresseVis($faker->address)
                 ->setCPVis($faker->postcode)
                 ->setVilleVis($faker->city)
+                ->setEmail($faker->email)
                 ->setDateEmbaucheVis($faker->datetime)
+                ->setCoverImage($picture)
                 ->setHash($hash)
-                ->setCoverImage('https://randomuser.me/api/portraits/')
                 ->setLedepartement($this->departements[mt_rand(0,100)])
                 ->setLesecteur($this->secteurs[mt_rand(0,5)]);
-
+    
                 $manager->persist($visiteur);
+
+                $visiteurs[]= $visiteur;
         }
 
         $manager->flush();

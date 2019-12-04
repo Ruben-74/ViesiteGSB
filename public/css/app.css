@@ -20,6 +20,13 @@
     background-position: center center;
 }
 
+.navbar-brand {
+    font-weight: 700;
+    font-size-adjust: initial;
+    font-family: Lobster, sans-serif;
+    letter-spacing: 5px;
+}
+
 div.ad-title {
     padding: 2em;
     background-size: cover;

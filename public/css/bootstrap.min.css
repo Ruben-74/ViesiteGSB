@@ -155,7 +155,8 @@ blockquote {
 
 b,
 strong {
-    font-weight: bolder
+    font-weight: bolder;
+    color: white;
 }
 
 small {

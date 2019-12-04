@@ -9,9 +9,6 @@ use Symfony\Component\HttpFoundation\Request;
 use Doctrine\Common\Persistence\ObjectManager;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Component\Form\Extension\Core\Type\SubmitType;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
-use Symfony\Component\HttpFoundation\Session\SessionInterface;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
@@ -35,9 +32,7 @@ class HomeController extends AbstractController
      * Permet de creer un visiteur
      *
      * @Route("/visiteurs/new", name="visiteurs_create")
-     * 
-     * 
-     * 
+     * @IsGranted("ROLE_USER")
      * @return Response
      */
     public function create(Request $request, ObjectManager $manager){

@@ -2,11 +2,23 @@
 
 namespace App\Entity;
 
+use App\Entity\Role;
+use Cocur\Slugify\Slugify;
+use Symfony\Component\Validator\Constraints as Assert;
 use Doctrine\ORM\Mapping as ORM;
+use Doctrine\Common\Collections\Collection;
+use Doctrine\ORM\Mapping\HasLifecycleCallbacks;
+use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Component\Security\Core\User\UserInterface;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\VisiteurRepository")
+ * @ORM\HasLifecycleCallbacks()
+ * @UniqueEntity(
+ * fields={"email"},
+ * message= "Un autre utilisateur s'est deja inscrit avec ce mail, merci de la modifier"
+ * )
  */
 class Visiteur implements UserInterface
 {
@@ -14,36 +26,43 @@ class Visiteur implements UserInterface
      * @ORM\Id()
      * @ORM\GeneratedValue()
      * @ORM\Column(type="integer")
+     * @ORM\generatedValue(strategy="AUTO")
      */
     private $id;
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Assert\NotBlank(message="Veuillez renseigner votre matricule!")
      */
     private $matricule;
 
     /**
      * @ORM\Column(type="string", length=255, nullable=false)
+     * @Assert\NotBlank(message="Veuillez renseigner votre prenom!")
      */
     private $Nom_vis;
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Assert\NotBlank(message="Veuillez renseigner votre adresse!")
      */
     private $adresse_vis;
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Assert\NotBlank(message="Veuillez renseigner votre code Postale!")
      */
     private $CP_vis;
 
     /**
-     * @ORM\Column(type="string", length=255)
+     * @ORM\Column(type="string", length=255, nullable=true)
+     * @Assert\NotBlank(message="Veuillez renseigner votre ville!")
      */
     private $Ville_vis;
 
     /**
-     * @ORM\Column(type="date")
+     * @ORM\Column(type="date" , nullable=true)
+     * @Assert\NotBlank(message="Veuillez renseigner votre date d'embauche!")
      */
     private $dateEmbauche_vis;
 
@@ -63,9 +82,52 @@ class Visiteur implements UserInterface
     private $coverImage;
 
     /**
-     * @ORM\Column(type="string", length=255)
+     * @ORM\Column(type="string", length=255, nullable=true)
      */
     private $hash;
+
+    //pas d'anotation il existe pas dans la bdd
+
+    /**
+     * 
+     */
+    public $passwordConfirm;
+
+    /**
+     * @ORM\ManyToMany(targetEntity="App\Entity\Role", mappedBy="roles")
+     */
+    private $visiteur_roles;
+
+    /**
+     * @ORM\Column(type="string", length=255)
+     */
+    private $email;
+
+    public function __construct()
+    {
+        $this->visiteur_roles = new ArrayCollection();
+    }
+
+
+    public function getFullName(){
+        return "{$this->Nom_vis} ";
+    }
+    /**
+     * Permet d'initialiser le slug
+     *
+     * @ORM\PrePersist
+     * @ORM\PreUpdate
+     * 
+     * @return void
+     */
+    public function initializeSlug(){
+        if (empty($this->Nom_vis)) {
+            
+            $slugify = new Slugify();
+            $this->Nom_vis = $slugify->Slugify($this->Nom_vis);
+                
+        }
+    }
 
     public function getId(): ?int
     {
@@ -191,11 +253,11 @@ class Visiteur implements UserInterface
 
         return $this;
     }
-
+    
     //tien compte des roles Admin des USER
     public function getRoles(){
 
-        $roles = $this->userRoles->map(function($role){
+        $roles = $this->visiteur_roles->map(function($role){
             return $role->getTitle();
         })->ToArray();
 
@@ -204,8 +266,9 @@ class Visiteur implements UserInterface
         return $roles;
     }
 
+
     public function getPassword(){
-        return$this->hash;
+        return $this->hash;
     }
 
     public function getSalt(){
@@ -219,4 +282,45 @@ class Visiteur implements UserInterface
     public function eraseCredentials(){
 
     }
+
+    /**
+     * @return Collection|Role[]
+     */
+    public function getVisiteurRoles(): Collection
+    {
+        return $this->visiteur_roles;
+    }
+
+    public function addVisiteurRole(Role $visiteurRole): self
+    {
+        if (!$this->visiteur_roles->contains($visiteurRole)) {
+            $this->visiteur_roles[] = $visiteurRole;
+            $visiteurRole->addRole($this);
+        }
+
+        return $this;
+    }
+
+    public function removeVisiteurRole(Role $visiteurRole): self
+    {
+        if ($this->visiteur_roles->contains($visiteurRole)) {
+            $this->visiteur_roles->removeElement($visiteurRole);
+            $visiteurRole->removeRole($this);
+        }
+
+        return $this;
+    }
+
+    public function getEmail(): ?string
+    {
+        return $this->email;
+    }
+
+    public function setEmail(string $email): self
+    {
+        $this->email = $email;
+
+        return $this;
+    }
+
 }

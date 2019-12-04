@@ -1,6 +1,6 @@
 security:
     encoders:
-       App\Entity\User:
+       App\Entity\Visiteur:
           algorithm: bcrypt
           
     # https://symfony.com/doc/current/security.html#where-do-users-come-from-user-providers
@@ -8,7 +8,7 @@ security:
         in_memory: { memory: null }
         in_database: 
             entity: 
-                class: App\Entity\User
+                class: App\Entity\Visiteur
                 property: email
     firewalls:
         dev:
