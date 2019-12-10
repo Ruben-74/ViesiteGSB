@@ -12,6 +12,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Doctrine\Common\Persistence\ObjectManager;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
@@ -51,7 +52,8 @@ class AccountController extends AbstractController
     }
     /**
      * Permet d'afficher le formulaire d'inscription
-     *
+     * 
+     *  @IsGranted("ROLE_ADMIN")
      *  @Route("/register", name="account_register")
      * 
      * @return Response
@@ -167,16 +169,30 @@ class AccountController extends AbstractController
                 return $this->redirectToRoute('visiteurs_index');
 
             }
-            
-            
         }
-
+            
         $form = $this->createForm(PasswordUpdateType::class, $passwordUpdate);
         //retourne un affichage
         return $this->render('account/password.html.twig', [
             'form'=> $form->createView()
         ]);
-
     }
+
+        /**
+        * Permet d'afficher le profil de l'utilisateur connecté
+        * 
+        *@Route("/account", name="account_index")
+        *
+        *@IsGranted("ROLE_USER")
+        * @return Response
+        */
+
+        public function myAccount(){
+
+            dump($this->getUser());
+            return $this->render('user/compte.html.twig', [
+                'user' => $this->getUser()
+            ]);
+        }
 
 }

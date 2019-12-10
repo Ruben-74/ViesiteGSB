@@ -9,6 +9,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Doctrine\Common\Persistence\ObjectManager;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
@@ -32,7 +33,7 @@ class HomeController extends AbstractController
      * Permet de creer un visiteur
      *
      * @Route("/visiteurs/new", name="visiteurs_create")
-     * @IsGranted("ROLE_USER")
+     * @IsGranted("ROLE_ADMIN")
      * @return Response
      */
     public function create(Request $request, ObjectManager $manager){
@@ -69,7 +70,8 @@ class HomeController extends AbstractController
     /**
      * Permet d'afficher le formulaire d'edition
      * 
-     *
+     * @Security("is_granted('ROLE_USER') and user === visiteur or is_granted('ROLE_ADMIN')" , message= "Ce profil ne vous appartient pas, vous ne pouvez pas le modifier") 
+     * 
      * @Route("/visiteurs/{id}/edit", name="visiteurs_edit")
      * 
      * @return Response
