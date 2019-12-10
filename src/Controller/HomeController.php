@@ -29,6 +29,21 @@ class HomeController extends AbstractController
         ]);
     }
 
+
+    /**
+     * Afficher des tous les visiteurs
+     * @Route("/user", name="visiteur_index")
+     */
+    public function Moncompte(VisiteurRepository $repo)
+    {
+    
+        $visiteur = $repo->findById();
+
+        return $this->render('user/compte.html.twig', [
+           'visiteur' => $visiteur
+        ]);
+    }
+
     /**
      * Permet de creer un visiteur
      *

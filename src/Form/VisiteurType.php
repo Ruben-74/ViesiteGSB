@@ -3,10 +3,7 @@
 namespace App\Form;
 
 use App\Entity\Visiteur;
-use App\Form\SecteurType;
-use App\Entity\Departement;
 use App\Form\ApplicationType;
-use App\Form\DepartementType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\OptionsResolver\OptionsResolver;

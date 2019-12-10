@@ -1,27 +1,41 @@
+{% set url = path('visiteur_index', {'id': visiteur.id}) %}
 {% extends 'base.html.twig' %} {% block title %} {{visiteur.nomvis}} {% endblock %} {% block body %}
 
-<div class="row">
-    <div class='col-6 mb-5'>
-        <img class="ml-5" src=" {{ visiteur.coverImage }}" style="width:90%; height:90%; margin-top:100px; " alt=" ">
+    <div>
+        <center><img class="avatar" src=" {{ visiteur.coverImage }}" style="width:70%; height:90%; margin-top:100px; " alt=" "></center>
+        <br>
+        <center><h1>{{visiteur.nomvis}}</h1></center>
     </div>
-    <div class="col-6 ml5" style="margin-top:150px;">
-        <h1>{{visiteur.nomvis}}</h1>
-        <h4 class="size">Matricule : <i>{{visiteur.matricule}}</i></h4>
-        <hr>
-        <h4 class="size">Adresse : {{visiteur.adressevis}}</h4>
-        <hr>
-        <h4 class="size">Ville : {{visiteur.villeVis}} </h4>
-        <hr>
-        <h4 class="size">Code Postal : {{visiteur.cpVis}}</h4>
-        <hr>
-        <h4 class="size">Departement : {{visiteur.ledepartement.nomDep}}</h4>
-        <hr>
-        <h4 class="size">Secteur : {{visiteur.lesecteur.libelleSec}}</h4>
-        <hr>
-        <h4 class="size">Date d'embauche : {{ visiteur.dateEmbaucheVis | date("d/m/Y") }}</h4>
-        <hr>
-        <a href="{{path('visiteurs_edit', {'id': visiteur.id})}}" class="btn btn-success">Modifier le visiteur</a>
-        <a href="{{path('visiteurs_delete', {'id' : visiteur.id})}}" class="btn btn-danger" onclick="return confirm('Etes vous sur de vouloir supprimer un visiteur : {{visiteur.nomVis}} ?')">Supprimer un visiteur</a>
+
+
+    <div class="row justify-content-center">
+        <div class="col-md-4"style="margin-top:25px;">
+            <hr>
+            <h5 class="size">Matricule : <i>{{visiteur.matricule}}</i></h5>
+            <hr>
+            <h5 class="size">Adresse : {{visiteur.adressevis}}</h5>
+            <hr>
+            <h5 class="size">Ville : {{visiteur.villeVis}} </h5>
+            <hr>
+        </div>
+        <div class="col-md-4">
+            <h5 class="size">Code Postal : {{visiteur.cpVis}}</h5>
+            <hr>
+            <h5 class="size">Departement : {{visiteur.ledepartement.nomDep}}</h5>
+            <hr>
+            <h5 class="size">Secteur : {{visiteur.lesecteur.libelleSec}}</h5>
+            <hr>
+            <h5 class="size">Date d'embauche : {{ visiteur.dateEmbaucheVis | date("d/m/Y") }}</h5>
+            <hr>
+        </div>
+    </div>   
+    <br>
+    <div class="row justify-content-center"style="margin-left:40px;">
+        <div class="col-md-4">
+            <a href="{{path('account_profile')}}" class="btn btn-primary mr-2 mb-2">Modifier mes informations</a>
+            <a href="{{path('account_password')}}" class="btn btn-primary mb-2">Modifier mon mot de passe</a>
+        </div>
     </div>
-</div>
+    
+    
 {% endblock %}
