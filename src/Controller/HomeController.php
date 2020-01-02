@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\Visiteur;
+use App\Form\SearchType;
 use App\Form\VisiteurType;
 use App\Repository\VisiteurRepository;
 use Symfony\Component\HttpFoundation\Request;
@@ -15,18 +16,29 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 class HomeController extends AbstractController
 {
+    
     /**
      * Afficher des tous les visiteurs
      * @Route("/", name="visiteurs_index")
      */
-    public function index(VisiteurRepository $repo)
+    public function index(VisiteurRepository $repo , Request $request)
     {
     
         $visiteurs = $repo->findAll();
+        
+        $search_form = $this->createForm(SearchType::class);
 
+        if( $search_form->handleRequest($request)->isSubmitted() && $search_form->isValid()){
+
+            $crit= $search_form->getData();
+            $visiteurs = $repo->searchVisiteur($crit);
+        }
+        
         return $this->render('index.html.twig', [
-           'visiteurs' => $visiteurs
+           'visiteurs' => $visiteurs,
+           'search_form' => $search_form->createView()
         ]);
+
     }
 
 

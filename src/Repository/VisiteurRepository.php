@@ -2,9 +2,10 @@
 
 namespace App\Repository;
 
+use App\Entity\Search;
 use App\Entity\Visiteur;
-use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Common\Persistence\ManagerRegistry;
+use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 
 /**
  * @method Visiteur|null find($id, $lockMode = null, $lockVersion = null)
@@ -22,19 +23,23 @@ class VisiteurRepository extends ServiceEntityRepository
     // /**
     //  * @return Visiteur[] Returns an array of Visiteur objects
     //  */
-    /*
-    public function findByExampleField($value)
+    
+
+    public function searchVisiteur($crit)
     {
-        return $this->createQueryBuilder('v')
-            ->andWhere('v.exampleField = :val')
-            ->setParameter('val', $value)
-            ->orderBy('v.id', 'ASC')
+        return $this->createQueryBuilder('s')
+            ->leftJoin('s.lesecteur', 'lesecteur')
+            ->leftJoin('s.ledepartement', 'ledepartement')
+            ->Where('lesecteur.libelle_sec = :secteurName')
+            ->setParameter('secteurName', $crit['lesecteur']->getLibelleSec())
+            ->andWhere('ledepartement.nom_Dep = :DepName')
+            ->setParameter('DepName', $crit['ledepartement']->getNomDep())
             ->setMaxResults(10)
             ->getQuery()
             ->getResult()
         ;
     }
-    */
+    
 
     /*
     public function findOneBySomeField($value): ?Visiteur

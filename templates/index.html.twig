@@ -7,8 +7,41 @@
     <center>Le profil de nos visiteurs !</center>
 </h1>
 <br>
+
 <div class="container">
 
+
+        <div class="jumbotron">
+    
+       <center><h5><i class="fa fa-search"></i><italic> Recherche Avancée</italic></h5></center>
+       <br>
+
+                {{form_start(search_form)}}
+
+                <div class="form-row">
+
+                    <div class="col">
+                        {{form_row(search_form.lesecteur)}}
+                    </div>
+
+                    <div class="col">
+                        {{form_row(search_form.ledepartement)}}
+                    </div>
+
+                    <div class="col-mt-3">
+                        <button class="btn btn-primary" style="margin-top:28px;">Rechercher</button>
+                    </div>
+
+                </div>
+
+                {{ form_end(search_form) }}
+            
+        </div>
+</div>
+
+
+<div class="container">
+ 
     <div class="row">
         {% for visiteur in visiteurs %} 
         

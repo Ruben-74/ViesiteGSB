@@ -26,7 +26,6 @@ class Visiteur implements UserInterface
      * @ORM\Id()
      * @ORM\GeneratedValue()
      * @ORM\Column(type="integer")
-     * @ORM\generatedValue(strategy="AUTO")
      */
     private $id;
 
