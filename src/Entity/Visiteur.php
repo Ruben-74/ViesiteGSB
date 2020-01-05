@@ -329,35 +329,4 @@ class Visiteur implements UserInterface
         return $this;
     }
 
-    /**
-     * @return Collection|Travailler[]
-     */
-    public function getTravaillers(): Collection
-    {
-        return $this->travaillers;
-    }
-
-    public function addTravailler(Travailler $travailler): self
-    {
-        if (!$this->travaillers->contains($travailler)) {
-            $this->travaillers[] = $travailler;
-            $travailler->setLesVisiteurs($this);
-        }
-
-        return $this;
-    }
-
-    public function removeTravailler(Travailler $travailler): self
-    {
-        if ($this->travaillers->contains($travailler)) {
-            $this->travaillers->removeElement($travailler);
-            // set the owning side to null (unless already changed)
-            if ($travailler->getLesVisiteurs() === $this) {
-                $travailler->setLesVisiteurs(null);
-            }
-        }
-
-        return $this;
-    }
-
 }

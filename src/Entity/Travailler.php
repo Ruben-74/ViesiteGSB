@@ -32,12 +32,6 @@ class Travailler
      */
     private $lesRegions;
 
-    /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\Visiteur", inversedBy="travaillers")
-     * @ORM\JoinColumn(nullable=false)
-     */
-    private $lesVisiteurs;
-
     public function getId(): ?int
     {
         return $this->id;
@@ -79,15 +73,4 @@ class Travailler
         return $this;
     }
 
-    public function getLesVisiteurs(): ?Visiteur
-    {
-        return $this->lesVisiteurs;
-    }
-
-    public function setLesVisiteurs(?Visiteur $lesVisiteurs): self
-    {
-        $this->lesVisiteurs = $lesVisiteurs;
-
-        return $this;
-    }
 }

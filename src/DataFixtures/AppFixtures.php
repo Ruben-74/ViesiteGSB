@@ -126,7 +126,7 @@ class AppFixtures extends Fixture
     
                 $manager->persist($visiteur);
 
-                $visiteur[] = $visiteur;
+                $visiteurs[] = $visiteur;
             }
             
             $manager->flush();
@@ -213,14 +213,13 @@ class AppFixtures extends Fixture
 
         $faker = Factory::create('FR-fr');
         
-        foreach($lespostes as $leposte) { 
+        for($i=1 ; $i <= 30 ; $i++) { 
 
             $travail = new Travailler();
             
-            $travail->setPoste($leposte[mt_rand(0,4)])
+            $travail->setPoste($lespostes[mt_rand(0,3)])
                     ->setDateInscription($faker->datetime)
-                    ->setLesRegions($this->regions[0])
-                    ->setLesVisiteurs($this->visiteurs[0]);
+                    ->setLesRegions($this->regions[mt_rand(1,17)]);
                     
             $manager->persist($travail);
             $manager->flush();

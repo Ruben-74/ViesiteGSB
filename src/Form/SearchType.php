@@ -16,13 +16,11 @@ class SearchType extends AbstractType
         ->add('ledepartement', EntityType::class, array(
             'class'        => 'App\Entity\Departement',
             'choice_label' => 'nomDep',
-            'required' => false
         ))
 
         ->add('lesecteur', EntityType::class, array(
             'class'        => 'App\Entity\Secteur',
             'choice_label' => 'libelleSec',
-            'required' => false
          ));
     }
 
