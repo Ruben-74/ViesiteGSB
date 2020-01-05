@@ -43,11 +43,15 @@
 <div class="container">
  
     <div class="row">
+    {% if visiteurs | length > 0 %}
         {% for visiteur in visiteurs %} 
         
           {% include 'visiteur/_visiteur.html.twig'%} 
          
         {% endfor %}
+    {% else %}
+     <h6> <i class="fa fa-meh-o" style="font-size:20px; margin-left:390px;"></i>   Aucun resultat trouvé pour votre recherche</h6>
+    {% endif %}
 
     </div>
 </div>

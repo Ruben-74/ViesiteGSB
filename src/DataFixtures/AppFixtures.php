@@ -7,6 +7,7 @@ use App\Entity\Role;
 use App\Entity\Region;
 use App\Entity\Secteur;
 use App\Entity\Visiteur;
+use App\Entity\Travailler;
 use App\Entity\Departement;
 use App\Repository\SecteurRepository;
 use Doctrine\Bundle\FixturesBundle\Fixture;
@@ -15,6 +16,7 @@ use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 
 class AppFixtures extends Fixture
 {
+    private $visiteurs;
 
     private $departements;
 
@@ -22,7 +24,10 @@ class AppFixtures extends Fixture
 
     private $secteurs;
 
+    private $postes;
+
     private $encoder;
+
 
     public function __construct(UserPasswordEncoderInterface $encoder){
        
@@ -36,6 +41,7 @@ class AppFixtures extends Fixture
         $this->creationSecteur($manager);
         $this->importRegion($manager);
         $this->CreationVisiteurs($manager);
+        $this->Travail_Poste($manager);
     }
 
     public function CreationVisiteurs($manager)
@@ -46,7 +52,7 @@ class AppFixtures extends Fixture
         
         $chaine = ('abcdefghijklmnopkrstuvwxyz0123456789');
         
-        $visiteurs = [];
+        
         $genres = ['male' , 'female'];
 
 
@@ -62,6 +68,7 @@ class AppFixtures extends Fixture
 
             $hash = $this->encoder->encodePassword($visiteur, 'password');
 
+            $visiteurs =[];
             
             $genre = $faker->randomElement($genres);
 
@@ -119,10 +126,12 @@ class AppFixtures extends Fixture
     
                 $manager->persist($visiteur);
 
-                $visiteurs[]= $visiteur;
-        }
-
-        $manager->flush();
+                $visiteur[] = $visiteur;
+            }
+            
+            $manager->flush();
+            
+        
     }
 
     //importation des departements
@@ -163,8 +172,8 @@ class AppFixtures extends Fixture
                     ->setLibelleSec($valeur);
                     
             $manager->persist($secteur);
-            $manager->flush();
             $this->secteurs[]= $secteur;
+            $manager->flush();
             
         }    
         
@@ -190,6 +199,34 @@ class AppFixtures extends Fixture
 
         }
         $manager->flush();
+
+    }
+
+    public function Travail_Poste($manager){
+
+        $lespostes= array(
+            "Medecin generaliste",
+            "Pharmacien",
+            "Infirmier",
+            "Specialiste"
+        );
+
+        $faker = Factory::create('FR-fr');
+        
+        foreach($lespostes as $leposte) { 
+
+            $travail = new Travailler();
+            
+            $travail->setPoste($leposte[mt_rand(0,4)])
+                    ->setDateInscription($faker->datetime)
+                    ->setLesRegions($this->regions[0])
+                    ->setLesVisiteurs($this->visiteurs[0]);
+                    
+            $manager->persist($travail);
+            $manager->flush();
+        }
+        
+        $this->postes[]= $travail;
 
     }
     

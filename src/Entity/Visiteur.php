@@ -102,9 +102,16 @@ class Visiteur implements UserInterface
      */
     private $email;
 
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\Travailler", mappedBy="lesVisiteurs")
+     */
+    private $travaillers;
+
+
     public function __construct()
     {
         $this->visiteur_roles = new ArrayCollection();
+        $this->travaillers = new ArrayCollection();
     }
 
 
@@ -318,6 +325,37 @@ class Visiteur implements UserInterface
     public function setEmail(string $email): self
     {
         $this->email = $email;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Travailler[]
+     */
+    public function getTravaillers(): Collection
+    {
+        return $this->travaillers;
+    }
+
+    public function addTravailler(Travailler $travailler): self
+    {
+        if (!$this->travaillers->contains($travailler)) {
+            $this->travaillers[] = $travailler;
+            $travailler->setLesVisiteurs($this);
+        }
+
+        return $this;
+    }
+
+    public function removeTravailler(Travailler $travailler): self
+    {
+        if ($this->travaillers->contains($travailler)) {
+            $this->travaillers->removeElement($travailler);
+            // set the owning side to null (unless already changed)
+            if ($travailler->getLesVisiteurs() === $this) {
+                $travailler->setLesVisiteurs(null);
+            }
+        }
 
         return $this;
     }

@@ -22,7 +22,6 @@ class SearchType extends AbstractType
         ->add('lesecteur', EntityType::class, array(
             'class'        => 'App\Entity\Secteur',
             'choice_label' => 'libelleSec',
-            'multiple'     => false,
             'required' => false
          ));
     }

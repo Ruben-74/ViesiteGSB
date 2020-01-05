@@ -24,7 +24,9 @@ class HomeController extends AbstractController
     public function index(VisiteurRepository $repo , Request $request)
     {
     
+        $visiteurs = [];
         $visiteurs = $repo->findAll();
+
         
         $search_form = $this->createForm(SearchType::class);
 
